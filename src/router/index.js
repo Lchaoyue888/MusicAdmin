@@ -50,7 +50,54 @@ export const constantRouterMap = [
       }
     ]
   },
-
+  {
+    path: '/admin',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'admin',
+        component: () => import('@/views/admin/index'),
+        meta: { title: '管理员管理', icon: 'admin' }
+      }
+    ]
+  },
+  {
+    path: '/singer',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'singer',
+        component: () => import('@/views/singer/index'),
+        meta: { title: '歌手管理', icon: 'singer' }
+      }
+    ]
+  },
+  {
+  path: '/songlist',
+  component: Layout,
+  children: [
+    {
+      path: 'index',
+      name: 'songlist',
+      component: () => import('@/views/songlist/index'),
+      meta: { title: '歌单管理', icon: 'songlist' }
+    }
+  ]
+},
+{
+  path: '/album',
+  component: Layout,
+  children: [
+    {
+      path: 'index',
+      name: 'album',
+      component: () => import('@/views/album/index'),
+      meta: { title: '专辑管理', icon: 'album' }
+    }
+  ]
+},
   { path: '*', redirect: '/404', hidden: true }
 ]
 

@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-input placeholder="昵称" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleAdd">添加</el-button>
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>
       <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
     </div>
     <el-table
@@ -18,10 +18,9 @@
           {{ scope.$index }}
         </template>
       </el-table-column> -->
-
-      <el-table-column label="用户id" width="180" align="center">
+      <el-table-column label="管理员id" width="180" align="center">
         <template slot-scope="scope">
-          {{ scope.row.user_id }}
+          {{ scope.row.admin_id }}
         </template>
       </el-table-column>
       <el-table-column label="昵称">
@@ -52,30 +51,12 @@
         </template>
       </el-table-column>
     </el-table>
-      <!--对话框-->
-  <el-dialog :title="form && form.id ? '编辑' : '新增' " :visible.sync="formVisible" :close-on-click-modal="false">
-    <el-form :model="form" label-width="100px" :rules="rules" ref="form">
-      <el-form-item label="姓名" prop="name">
-        <el-input v-model="form.name" />
-      </el-form-item>
-      <el-form-item label="性别" prop="sex">
-        <el-radio-group v-model="form.sex">
-          <el-radio :label="1">男</el-radio>
-          <el-radio :label="2">女</el-radio>
-        </el-radio-group>
-      </el-form-item>
-    </el-form>
-    <div slot="footer" class="dialog-footer">
-      <el-button @click.native="formVisible = false">取消</el-button>
-      <el-button type="primary" @click.native="addData" :loading="formLoading">提交</el-button>
-    </div>
-  </el-dialog>
   </div>
 </template>
 
 <script>
-import { listUser } from '@/axios/api'
-import { addUser } from '@/axios/api'
+import { listAdmin } from '@/axios/api'
+
 export default {
   filters: {
     statusFilter(status) {
@@ -90,10 +71,7 @@ export default {
   data() {
     return {
       list: null,
-      listLoading: true,
-      formLoading: false,
-      formVisible: false,
-      page: 1
+      listLoading: true
     }
   },
   created() {
@@ -102,37 +80,12 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      listUser(this.listQuery).then(response => {
+      listAdmin(this.listQuery).then(response => {
         this.list = response.data.rows
-        console.log('222222222222')
+        console.log('')
         console.log(this.list)
         this.listLoading = false
       })
-    },
-    addData() {
-      this.formLoading = true
-      addUser(this.addQuery).then(response => {
-        if (!response.data.success) {
-          this.$message({
-            showClose: true,
-            message: response.data.message,
-            type: 'error'
-          })
-          return
-        }
-        this.$message({
-          type: 'success',
-          message: '保存成功'
-        })
-        this.page = 1
-        this.fetchData()
-        this.formVisible = false
-      }).catch(e => this.formLoading = false)
-    },
-    handleAdd() {
-  this.form = {}
-  this.form.sex = 1
-  this.formVisible = true      
     }
   }
 }
