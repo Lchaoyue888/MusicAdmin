@@ -75,6 +75,31 @@ export const constantRouterMap = [
     ]
   },
   {
+    path: '/song',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'song',
+        component: () => import('@/views/song/index'),
+        meta: { title: '歌曲管理', icon: 'song' }
+      }
+    ]
+  },
+  {
+    path: '/songcomment',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'songcomment',
+        component: () => import('@/views/songcomment/index'),
+        meta: { title: '歌曲评论管理', icon: 'songcomment' }
+      }
+    ]
+  },
+  
+  {
   path: '/songlist',
   component: Layout,
   children: [
@@ -83,6 +108,18 @@ export const constantRouterMap = [
       name: 'songlist',
       component: () => import('@/views/songlist/index'),
       meta: { title: '歌单管理', icon: 'songlist' }
+    }
+  ]
+},
+{
+  path: '/songlistcomment',
+  component: Layout,
+  children: [
+    {
+      path: 'index',
+      name: 'songlistcomment',
+      component: () => import('@/views/songlistcomment/index'),
+      meta: { title: '歌单评论管理', icon: 'songlistcomment' }
     }
   ]
 },
@@ -98,6 +135,32 @@ export const constantRouterMap = [
     }
   ]
 },
+{
+  path: '/albumcomment',
+  component: Layout,
+  children: [
+    {
+      path: 'index',
+      name: 'albumcomment',
+      component: () => import('@/views/albumcomment/index'),
+      meta: { title: '专辑评论管理', icon: 'albumcomment' }
+    }
+  ]
+},
+
+{
+  path: '/notification',
+  component: Layout,
+  children: [
+    {
+      path: 'index',
+      name: 'notification',
+      component: () => import('@/views/notification/index'),
+      meta: { title: '通知管理', icon: 'notification' }
+    }
+  ]
+},
+
   { path: '*', redirect: '/404', hidden: true }
 ]
 

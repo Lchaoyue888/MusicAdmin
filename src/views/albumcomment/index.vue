@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input placeholder="专辑名" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
+      <el-input placeholder="昵称" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleAdd">添加</el-button>
       <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
@@ -13,21 +13,36 @@
       border
       fit
       highlight-current-row>
-            <el-table-column label="专辑id" width="180" align="center">
+      <!-- <el-table-column align="center" label="ID" width="95">
+        <template slot-scope="scope">
+          {{ scope.$index }}
+        </template>
+      </el-table-column> -->
+      <el-table-column label="评论id" width="180" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.comment_id }}
+        </template>
+      </el-table-column>
+      <el-table-column label="用户id">
+        <template slot-scope="scope">
+          {{ scope.row.user_id }}
+        </template>
+      </el-table-column>
+      <el-table-column label="专辑id" width="110" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.album_id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="专辑名" >
+      <!-- <el-table-column label="手机号" width="180" align="center">
         <template slot-scope="scope">
-          {{ scope.row.album_name }}
+          {{ scope.row.phone }}
         </template>
       </el-table-column>
-      <el-table-column label="歌手id" width="180" align="center">
+      <el-table-column label="邮箱" width="180" align="center">
         <template slot-scope="scope">
-          {{ scope.row.singer_id }}
+          {{ scope.row.email }}
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleEdit(scope.$index,scope.row)">编辑</el-button>
@@ -36,17 +51,17 @@
         </template>
       </el-table-column>
     </el-table>
-    <div>
+      <div>
   <el-dialog :title="form && form.id ? '编辑' : '添加' " :visible.sync="formVisible" :close-on-click-modal="false">
     <el-form :model="form" label-width="100px" :rules="rules" ref="form">
-      <el-form-item label="专辑id" prop="album_id">
+      <el-form-item label="评论id" prop="comment_id">
+        <el-input v-model="form.comment_id" />
+      </el-form-item>
+            <el-form-item label="用户id" prop="user_id">
+        <el-input v-model="form.user_id" />
+      </el-form-item>
+                  <el-form-item label="专辑id" prop="songlist_id">
         <el-input v-model="form.album_id" />
-      </el-form-item>
-            <el-form-item label="专辑名" prop="album_name">
-        <el-input v-model="form.album_name" />
-      </el-form-item>
-                  <el-form-item label="歌手id" prop="singer_id">
-        <el-input v-model="form.singer_id" />
       </el-form-item>
                   <!-- <el-form-item label="手机号" prop="phone">
         <el-input v-model="form.phone" />
@@ -71,10 +86,9 @@
 </template>
 
 <script>
-import { listAlbum } from '@/axios/api'
-import { addAlbum } from '@/axios/api'
-import { deleteAlbum } from '@/axios/api'
-
+import { listCmt_album } from '@/axios/api'
+import { addCmt_album } from '@/axios/api'
+import { deleteCmt_album } from '@/axios/api'
 export default {
   filters: {
     statusFilter(status) {
@@ -100,16 +114,16 @@ export default {
       rows : {},
       clientHeight : '100%',
       rules : {
-        album_name: [{
+        comment_id: [{
         required: true,
-        message: '请输入姓名',
+        message: '请输入评论id',
         trigger: 'blur'
       }],
-  sex: [{
-    required: true,
-    message: '请选择性别',
-    trigger: 'change'
-  }]
+  // sex: [{
+  //   required: true,
+  //   message: '请选择性别',
+  //   trigger: 'change'
+  // }]
 },
     }
   },
@@ -119,7 +133,7 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      listAlbum(this.listQuery).then(response => {
+      listCmt_album(this.listQuery).then(response => {
         this.list = response.data.rows
         console.log('')
         console.log(this.list)
@@ -128,7 +142,7 @@ export default {
     },
     addData() {
       this.formLoading = true
-      addAlbum(this.form).then(response => {
+      addCmt_album(this.form).then(response => {
         this.formLoading = false
         if (!response.data.success) {
           
@@ -172,7 +186,7 @@ export default {
       }).then(() => {
         // console.log('delete在这')
         this.listLoading = true
-        deleteAlbum(row.album_id).then(res =>{
+        deleteCmt_album(row.comment_id).then(res =>{
           // console.log('delete在这2')
           this.listLoading = false
           if(!res.data.success){
@@ -184,7 +198,7 @@ export default {
           }
           this.$message({
             type : 'success',
-            message : row.album_name+'   删除成功！'
+            message : row.comment_id+'   删除成功！'
           })
           // this.page = 1
           this.fetchData()
