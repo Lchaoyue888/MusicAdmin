@@ -135,8 +135,11 @@ export default {
     })
 
     mock.onPost('api/userinfo/addUserinfo').reply(req => {
+      console.log("1111111111111")
+      console.log(req)
       return new Promise((resolve,reject) => {
         const data = req.data ? JSON.parse(req.data) : {}
+
         const result = {}
         if (data.nick_name){
           result.success = true
@@ -151,5 +154,8 @@ export default {
       })
 
     })
+    
+
   }
+
 }

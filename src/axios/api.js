@@ -5,8 +5,8 @@ axios.defaults.baseURL = 'localhost:9528'
 export const listUser = params => {
   return axios.post('/api/userinfo/loadPage', params)
 }
-export const addUser = params => {
-  return axios.post('/api/userinfo/addUserinfo', params)
+export const addUser = form => {
+  return axios.post('/api/userinfo/addUserinfo', form)
 }
 
 export const listAdmin = params => {
