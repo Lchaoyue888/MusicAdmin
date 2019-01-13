@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input placeholder="昵称" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
+      <el-input placeholder="昵称" v-model="searchName" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleAdd">添加</el-button>
       <!-- <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button> -->
@@ -95,6 +95,7 @@ import { listUser } from '@/axios/api'
 import { addUser } from '@/axios/api'
 import { deleteUser } from '@/axios/api'
 import { updateUser} from  '@/axios/api'
+import { searchUser } from '@/axios/api'
 export default {
   filters: {
     statusFilter(status) {
@@ -108,6 +109,7 @@ export default {
   },
   data() {
     return {
+      searchName: '',
       flag : 0,
       list: null,
       listLoading: true ,
@@ -191,7 +193,18 @@ export default {
       
     },
     handleFilter() {
-
+      searchUser(this.searchName).then(res => {
+        if (!res.data) {
+          this.$message({
+            type: 'error',
+            message: '用户昵称不存在!'
+          })
+          return 
+        } 
+        this.list = [res.data]
+        this.currentPage = 1
+        
+      })
     },
     downloadLoading() {
       

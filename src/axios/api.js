@@ -42,6 +42,9 @@ export const deleteUser = id => {
 export const updateUser = form => {
   return axios.put('/api/userinfo/updateUserinfo?user_id='+form.user_id+'&user_nickname='+form.user_nickname+'&user_real_name='+form.user_real_name+'&user_phone_number='+form.user_phone_number+'&user_email='+form.user_email)
 }
+export const searchUser = name => {
+  return axios.get('/api/userinfo/fingbyuser_nickname?user_nickname='+name)
+}
 
 //singerinfo
 export const listSinger = params => {
@@ -87,44 +90,44 @@ export const updateAlbum = form =>{
 
 //comment   (song)
 export const listComment = params => {
-  return axios.get('/api/comment/song_id_page?song_id'+params.song_id+'currentPage='+params.currentPage+'&pageSize='+params.pageSize)
+  return axios.get('/api/comment/findall?currentPage='+params.currentPage+'&pageSize='+params.pageSize)
 }
 export const addComment = form => {
-  return axios.post('/api/comment/addComment?comment_id='+form.comment_id+'&user_id='+form.user_id+'&song_id='+form.song_id)
+  return axios.post('/api/comment/addComment?comment_id='+form.comment_id+'&user_id='+form.user_id+'&song_id='+form.song_id+'&songlist_id='+form.songlist_id+'&comment_content='+form.comment_content+'&comment_time='+form.comment_time)
 }
-export const deleteComment = id => {
-  return axios.delete('/api/comment/deleteComment?comment_id' + id)
+export const deleteComment = params => {
+  return axios.delete('/api/comment/deleteComment?comment_id=' + params.c_id+'&song_id='+params.s_id)
 }
 export const updateComment = form =>{
-  return axios.put('/api/comment/updateComment?comment_id='+form.comment_id+'&user_id='+form.user_id+'&song_id='+form.song_id)
+  return axios.put('/api/comment/updateComment?comment_id='+form.comment_id+'&user_id='+form.user_id+'&song_id='+form.song_id+'&songlist_id='+form.songlist_id+'&comment_content='+form.comment_content+'&comment_time='+form.comment_time)
 }
 
 //cmt_songlist
 export const listCmt_songlist = params => {
-  return axios.get('/api/cmt_songlist/findall_page?currentPage='+params.currentPage+'&pageSize='+params.pageSize)
+  return axios.get('/api/cmt_songlist/findall?currentPage='+params.currentPage+'&pageSize='+params.pageSize)
 }
 export const addCmt_songlist = form => {
-  return axios.post('/api/cmt_songlist/addCmt_songlist?comment_id='+form.comment_id+'&user_id='+form.user_id+'&songlist_id='+form.songlist_id)
+  return axios.post('/api/cmt_songlist/addCmt_songlist?comment_id='+form.comment_id+'&user_id='+form.user_id+'&songlist_id='+form.songlist_id+'&comment_content='+form.comment_content+'&comment_time='+form.comment_time)
 }
-export const deleteCmt_songlist = id => {
-  return axios.delete('/api/cmt_songlist/deleteCmt_songlist?comment_id=' + id)
+export const deleteCmt_songlist = params => {
+  return axios.delete('/api/cmt_songlist/deleteCmt_songlist?comment_id=' + params.c_id+'&songlist_id='+params.s_id)
 }
 export const updateCmt_songlist = form =>{
-  return axios.put('/api/cmt_songlist/updateCmt_songlist?comment_id='+form.comment_id+'&user_id='+form.user_id+'&songlist_id='+form.songlist_id)
+  return axios.put('/api/cmt_songlist/updateCmt_songlist?comment_id='+form.comment_id+'&user_id='+form.user_id+'&songlist_id='+form.songlist_id+'&comment_content='+form.comment_content+'&comment_time='+form.comment_time)
 }
 
 //cmt_album
 export const listCmt_album = params => {
-  return axios.get('/api/cmt_album/findall_page?currentPage='+params.currentPage+'&pageSize='+params.pageSize)
+  return axios.get('/api/cmt_album/findall?currentPage='+params.currentPage+'&pageSize='+params.pageSize)
 }
 export const addCmt_album = form => {
-  return axios.post('/api/cmt_album/addCmt_album?comment_id='+form.comment_id+'&user_id='+form.user_id+'&album_id='+form.album_id)
+  return axios.post('/api/cmt_album/addCmt_album?comment_id='+form.comment_id+'&user_id='+form.user_id+'&album_id='+form.album_id+'&comment_content='+form.comment_content+'&comment_time='+form.comment_time)
 }
-export const deleteCmt_album = id => {
-  return axios.delete('/api/cmt_album/deleteCmt_album?comment_id' + id)
+export const deleteCmt_album = params => {
+  return axios.delete('/api/cmt_album/deleteCmt_album?comment_id=' + params.c_id+'&album_id='+params.s_id)
 }
 export const updateCmt_album = form =>{
-  return axios.put('/api/cmt_album/updateCmt_album?comment_id='+form.comment_id+'&user_id='+form.user_id+'&album_id='+form.album_id)
+  return axios.put('/api/cmt_album/updateCmt_album?comment_id='+form.comment_id+'&user_id='+form.user_id+'&album_id='+form.album_id+'&comment_content='+form.comment_content+'&comment_time='+form.comment_time)
 }
 
 //notification
@@ -140,3 +143,4 @@ export const deleteNo = id => {
 export const updateNo = form =>{
 return axios.put('/api/notification/updateNotification?notification_id='+ form.notification_id+'&admin_id='+form.admin_id+'&notification_head='+form.notification_head+'&notification_content='+form.notification_content+'&notification_time='+form.notification_time)
 }
+
