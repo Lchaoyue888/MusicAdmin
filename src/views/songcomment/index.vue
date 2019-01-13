@@ -51,6 +51,10 @@
         </template>
       </el-table-column>
     </el-table>
+        <div id="comment_foot" class="comment_foot">
+					<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+					</el-pagination>
+				</div>
       <div>
   <el-dialog :title="form && form.id ? '编辑' : '添加' " :visible.sync="formVisible" :close-on-click-modal="false">
     <el-form :model="form" label-width="100px" :rules="rules" ref="form">
@@ -78,7 +82,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click.native="formVisible = false">取消</el-button>
-      <el-button type="primary" @click.native="addData" :loading="formLoading">提交</el-button>
+      <el-button type="primary" @click.native="addOrUpdate" :loading="formLoading">提交</el-button>
     </div>
   </el-dialog>
   </div>
@@ -89,6 +93,7 @@
 import { listComment } from '@/axios/api'
 import { addComment } from '@/axios/api'
 import { deleteComment } from '@/axios/api'
+import { updateComment } from '@/axios/api'
 export default {
   filters: {
     statusFilter(status) {
@@ -102,21 +107,25 @@ export default {
   },
   data() {
     return {
+      flag : 0,
       list: null,
       listLoading: true ,
       form : {},
+      updateform:{},
       size : 20,
       filters : {},
       formLoading: false,
       formVisible: false,
       total : 0,
-      page : 1,
+      currentPage : 1,
+      pageSize : 20,
+      listQuery: {},
       rows : {},
       clientHeight : '100%',
       rules : {
         comment_id: [{
         required: true,
-        message: '请输入评论id',
+        message: '请输入ID',
         trigger: 'blur'
       }],
   // sex: [{
@@ -133,9 +142,15 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
+      this.listQuery = {
+        currentPage: this.currentPage,
+        pageSize: this.pageSize
+      }
       listComment(this.listQuery).then(response => {
-        this.list = response.data.rows
-        console.log('')
+        this.list = response.data
+        this.total = response.data.total
+        this.currentPage++
+        console.log('555555')
         console.log(this.list)
         this.listLoading = false
       })
@@ -143,12 +158,14 @@ export default {
     addData() {
       this.formLoading = true
       addComment(this.form).then(response => {
+        console.log('retret')
+        console.log(response)
         this.formLoading = false
-        if (!response.data.success) {
+        if (!response.data) {
           
           this.$message({
             showClose: true,
-            message: response.data.message,
+            message: 'error',
             type: 'error'
           })
           return
@@ -157,12 +174,13 @@ export default {
           type: 'success',
           message: '保存成功！'
         })
-        // this.page = 1
+        this.currentPage = 1
         this.fetchData()
         this.formVisible = false
       })
     },
     handleAdd() {
+      this.flag = 1
       console.log("1111111")
   this.form = {}
   // this.form.sex = 1
@@ -189,10 +207,10 @@ export default {
         deleteComment(row.comment_id).then(res =>{
           // console.log('delete在这2')
           this.listLoading = false
-          if(!res.data.success){
+          if(!res.data){
             this.$message({
               type : 'error',
-              message : res.data.message
+              message : 'error!'
             })
             return
           }
@@ -200,7 +218,7 @@ export default {
             type : 'success',
             message : row.comment_id+'   删除成功！'
           })
-          // this.page = 1
+            this.currentPage = 1
           this.fetchData()
         })
         
@@ -208,10 +226,50 @@ export default {
 
     },
     handleEdit(index,row){
+      this.flag = 2
       this.form = Object.assign({},row)
       this.formVisible = true
-    }
-  }
+    },
+    handleCurrentChange(val) {
+				this.currentPage = val
+				this.fetchData()
+      },
+     addOrUpdate() {
+      if (this.flag === 1) {
+        this.addData()
+        this.flag = 0
+      } else if (this.flag === 2) {
+        this.updateData()
+        this.flag = 0
+      } else {
+        return
+      }
+    },
+    updateData() {
+      this.formLoading = true
+      updateComment(this.form).then(response => {
+        console.log('retret')
+        console.log(response)
+        this.formLoading = false
+        if (!response.data) {
+          this.$message({
+            showClose: true,
+            message: 'error',
+            type: 'error'
+          })
+          return
+        }
+        this.$message({
+          type: 'success',
+          message: '修改成功！'
+        })
+        this.currentPage = 1
+        this.fetchData()
+        this.formVisible = false
+      })
+    },
+  },
+
 }
 </script>
 

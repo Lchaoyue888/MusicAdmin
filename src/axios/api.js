@@ -73,21 +73,21 @@ export const updateSonglist = form =>{
 
 //albuminfo
 export const listAlbum = params => {
-  return axios.get('/api/albuminfo/findall_page?currentPage='+params.currentPage+'&pageSize='+params.pageSize)
+  return axios.get('/api/albuminfo/findalbuminfoall_page?currentPage='+params.currentPage+'&pageSize='+params.pageSize)
 }
 export const addAlbum = form => {
-  return axios.post('/api/albuminfo/addAlbuminfo?album_id='+form.album_id+'&album_name='+form.album_name+'&singer_id='+form.singer_id)
+  return axios.post('/api/albuminfo/addAlbuminfo?album_id='+form.album_id+'&album_name='+form.album_name+'&singer_id='+form.singer_id+'&album_date='+form.album_date)
 }
 export const deleteAlbum = id => {
   return axios.delete('/api/albuminfo/deleteAlbuminfo?album_id=' + id)
 }
 export const updateAlbum = form =>{
-  return axios.put('/api/albuminfo/updateAlbuminfo?album_id='+form.album_id+'&album_name='+form.album_name+'&singer_id='+form.singer_id)
+  return axios.put('/api/albuminfo/updateAlbuminfo?album_id='+form.album_id+'&album_name='+form.album_name+'&singer_id='+form.singer_id+'&album_date='+form.album_date)
 }
 
 //comment   (song)
 export const listComment = params => {
-  return axios.get('/api/comment/findall_page?currentPage='+params.currentPage+'&pageSize='+params.pageSize)
+  return axios.get('/api/comment/song_id_page?song_id'+params.song_id+'currentPage='+params.currentPage+'&pageSize='+params.pageSize)
 }
 export const addComment = form => {
   return axios.post('/api/comment/addComment?comment_id='+form.comment_id+'&user_id='+form.user_id+'&song_id='+form.song_id)
@@ -129,14 +129,14 @@ export const updateCmt_album = form =>{
 
 //notification
 export const listNo = params => {
-  return axios.get('/api/notification/findall_page?currentPage='+params.currentPage+'&pageSize='+params.pageSize)
+  return axios.get('/api/notification/findNotification_page?currentPage='+params.currentPage+'&pageSize='+params.pageSize)
 }
 export const addNo = form => {
-  return axios.post('/api/notification/addNotification?notifacation_id='+ form.notifacation_id+'&admin_id='+form.admin_id+'&notification_head='+form.notification_head)
+  return axios.post('/api/notification/addNotification?notification_id='+ form.notification_id+'&admin_id='+form.admin_id+'&notification_head='+form.notification_head+'&notification_content='+form.notification_content+'&notification_time='+form.notification_time)
 }
 export const deleteNo = id => {
-  return axios.delete('/api/notification/deleteNotification?notification_id' + id)
+  return axios.delete('/api/notification/deleteNotification?notification_id=' + id)
 }
 export const updateNo = form =>{
-return axios.put('/api/notification/addNotification?notifacation_id='+ form.notifacation_id+'&admin_id='+form.admin_id+'&notification_head='+form.notification_head)
+return axios.put('/api/notification/updateNotification?notification_id='+ form.notification_id+'&admin_id='+form.admin_id+'&notification_head='+form.notification_head+'&notification_content='+form.notification_content+'&notification_time='+form.notification_time)
 }
