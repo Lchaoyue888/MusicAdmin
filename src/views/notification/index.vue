@@ -119,11 +119,11 @@ export default {
         message: '请输入通知id',
         trigger: 'blur'
       }],
-  sex: [{
-    required: true,
-    message: '请选择性别',
-    trigger: 'change'
-  }]
+  // sex: [{
+  //   required: true,
+  //   message: '请选择性别',
+  //   trigger: 'change'
+  // }]
 },
     }
   },

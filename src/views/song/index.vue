@@ -4,7 +4,7 @@
       <el-input placeholder="昵称" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleAdd">添加</el-button>
-      <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
+      
     </div>
     <el-table
       v-loading="listLoading"
@@ -51,16 +51,20 @@
         </template>
       </el-table-column>
     </el-table>
+    <div id="song_foot" class="song_foot">
+					<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+					</el-pagination>
+				</div>
       <div>
   <el-dialog :title="form && form.id ? '编辑' : '添加' " :visible.sync="formVisible" :close-on-click-modal="false">
     <el-form :model="form" label-width="100px" :rules="rules" ref="form">
       <el-form-item label="歌曲id" prop="song_id">
         <el-input v-model="form.song_id" />
       </el-form-item>
-            <el-form-item label="歌名" prop="nick_name">
+            <el-form-item label="歌名" prop="song_name">
         <el-input v-model="form.song_name" />
       </el-form-item>
-                  <el-form-item label="歌手id" prop="true_name">
+                  <el-form-item label="歌手id" prop="singer_id">
         <el-input v-model="form.singer_id" />
       </el-form-item>
                   <!-- <el-form-item label="手机号" prop="phone">
@@ -78,7 +82,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click.native="formVisible = false">取消</el-button>
-      <el-button type="primary" @click.native="addData" :loading="formLoading">提交</el-button>
+      <el-button type="primary" @click.native="addOrUpdate" :loading="formLoading">提交</el-button>
     </div>
   </el-dialog>
   </div>
@@ -89,6 +93,7 @@
 import { listSong } from '@/axios/api'
 import { addSong } from '@/axios/api'
 import { deleteSong } from '@/axios/api'
+import { updateSong } from '@/axios/api'
 export default {
   filters: {
     statusFilter(status) {
@@ -102,28 +107,32 @@ export default {
   },
   data() {
     return {
+      flag : 0,
       list: null,
       listLoading: true ,
       form : {},
+      updateform:{},
       size : 20,
       filters : {},
       formLoading: false,
       formVisible: false,
       total : 0,
-      page : 1,
+      currentPage : 1,
+      pageSize : 20,
+      listQuery: {},
       rows : {},
       clientHeight : '100%',
       rules : {
-        song_name: [{
+        song_id: [{
         required: true,
-        message: '请输入歌名',
+        message: '请输入ID',
         trigger: 'blur'
       }],
-  sex: [{
-    required: true,
-    message: '请选择性别',
-    trigger: 'change'
-  }]
+  // sex: [{
+  //   required: true,
+  //   message: '请选择性别',
+  //   trigger: 'change'
+  // }]
 },
     }
   },
@@ -133,9 +142,15 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
+      this.listQuery = {
+        currentPage: this.currentPage,
+        pageSize: this.pageSize
+      }
       listSong(this.listQuery).then(response => {
-        this.list = response.data.rows
-        console.log('')
+        this.list = response.data
+        this.total = response.data.total
+        this.currentPage++
+        console.log('555555')
         console.log(this.list)
         this.listLoading = false
       })
@@ -143,12 +158,14 @@ export default {
     addData() {
       this.formLoading = true
       addSong(this.form).then(response => {
+        console.log('retret')
+        console.log(response)
         this.formLoading = false
-        if (!response.data.success) {
+        if (!response.data) {
           
           this.$message({
             showClose: true,
-            message: response.data.message,
+            message: 'error',
             type: 'error'
           })
           return
@@ -157,12 +174,13 @@ export default {
           type: 'success',
           message: '保存成功！'
         })
-        // this.page = 1
+        this.currentPage = 1
         this.fetchData()
         this.formVisible = false
       })
     },
     handleAdd() {
+      this.flag = 1
       console.log("1111111")
   this.form = {}
   // this.form.sex = 1
@@ -186,13 +204,13 @@ export default {
       }).then(() => {
         // console.log('delete在这')
         this.listLoading = true
-        deleteSong(row.admin_id).then(res =>{
+        deleteSong(row.song_id).then(res =>{
           // console.log('delete在这2')
           this.listLoading = false
-          if(!res.data.success){
+          if(!res.data){
             this.$message({
               type : 'error',
-              message : res.data.message
+              message : 'error!'
             })
             return
           }
@@ -200,7 +218,7 @@ export default {
             type : 'success',
             message : row.song_name+'   删除成功！'
           })
-          // this.page = 1
+            this.currentPage = 1
           this.fetchData()
         })
         
@@ -208,10 +226,50 @@ export default {
 
     },
     handleEdit(index,row){
+      this.flag = 2
       this.form = Object.assign({},row)
       this.formVisible = true
-    }
-  }
+    },
+    handleCurrentChange(val) {
+				this.currentPage = val
+				this.fetchData()
+      },
+     addOrUpdate() {
+      if (this.flag === 1) {
+        this.addData()
+        this.flag = 0
+      } else if (this.flag === 2) {
+        this.updateData()
+        this.flag = 0
+      } else {
+        return
+      }
+    },
+    updateData() {
+      this.formLoading = true
+      updateSong(this.form).then(response => {
+        console.log('retret')
+        console.log(response)
+        this.formLoading = false
+        if (!response.data) {
+          this.$message({
+            showClose: true,
+            message: 'error',
+            type: 'error'
+          })
+          return
+        }
+        this.$message({
+          type: 'success',
+          message: '修改成功！'
+        })
+        this.currentPage = 1
+        this.fetchData()
+        this.formVisible = false
+      })
+    },
+  },
+
 }
 </script>
 

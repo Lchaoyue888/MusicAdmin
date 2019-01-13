@@ -14,9 +14,9 @@ import store from './store'
 
 import '@/icons' // icon
 import '@/permission' // permission control
-import Mock from './mock/index.js'
+//import Mock from './mock/index.js'
 
-Mock.init()
+//Mock.init()
 Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false

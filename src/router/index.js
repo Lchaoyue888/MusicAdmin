@@ -50,18 +50,18 @@ export const constantRouterMap = [
       }
     ]
   },
-  {
-    path: '/admin',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'admin',
-        component: () => import('@/views/admin/index'),
-        meta: { title: '管理员管理', icon: 'admin' }
-      }
-    ]
-  },
+  // {
+  //   path: '/admin',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'admin',
+  //       component: () => import('@/views/admin/index'),
+  //       meta: { title: '管理员管理', icon: 'admin' }
+  //     }
+  //   ]
+  // },
   {
     path: '/singer',
     component: Layout,

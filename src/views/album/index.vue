@@ -102,14 +102,14 @@ export default {
       rules : {
         album_name: [{
         required: true,
-        message: '请输入姓名',
+        message: '请输入专辑名',
         trigger: 'blur'
       }],
-  sex: [{
-    required: true,
-    message: '请选择性别',
-    trigger: 'change'
-  }]
+  // sex: [{
+  //   required: true,
+  //   message: '请选择性别',
+  //   trigger: 'change'
+  // }]
 },
     }
   },
