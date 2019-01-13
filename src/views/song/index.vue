@@ -28,6 +28,11 @@
           {{ scope.row.song_name }}
         </template>
       </el-table-column>
+      <el-table-column label="专辑id">
+        <template slot-scope="scope">
+          {{ scope.row.album_id }}
+        </template>
+      </el-table-column>
       <el-table-column label="歌手id" width="110" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.singer_id }}</span>
@@ -64,7 +69,10 @@
             <el-form-item label="歌名" prop="song_name">
         <el-input v-model="form.song_name" />
       </el-form-item>
-                  <el-form-item label="歌手id" prop="singer_id">
+      <el-form-item label="专辑id" prop="album_id">
+        <el-input v-model="form.album_id" />
+      </el-form-item>
+        <el-form-item label="歌手id" prop="singer_id">
         <el-input v-model="form.singer_id" />
       </el-form-item>
                   <!-- <el-form-item label="手机号" prop="phone">
@@ -125,14 +133,19 @@ export default {
       rules : {
         song_id: [{
         required: true,
-        message: '请输入ID',
+        message: '请输入歌曲ID',
         trigger: 'blur'
       }],
-  // sex: [{
-  //   required: true,
-  //   message: '请选择性别',
-  //   trigger: 'change'
-  // }]
+        song_name: [{
+        required: true,
+        message: '请输入歌曲名',
+        trigger: 'blur'
+      }],
+        singer_id: [{
+        required: true,
+        message: '请输入歌手ID',
+        trigger: 'blur'
+      }],
 },
     }
   },

@@ -29,6 +29,11 @@
           {{ scope.row.singer_name }}
         </template>
       </el-table-column>
+      <el-table-column label="歌手标签" width="180" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.singer_label }}
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleEdit(scope.$index,scope.row)">编辑</el-button>
@@ -49,6 +54,9 @@
       </el-form-item>
             <el-form-item label="歌手名" prop="singer_name">
         <el-input v-model="form.singer_name" />
+      </el-form-item>
+      <el-form-item label="歌手标签" prop="singer_label">
+        <el-input v-model="form.singer_label" />
       </el-form-item>
                   <!-- <el-form-item label="真实姓名" prop="true_name">
         <el-input v-model="form.true_name" />
@@ -115,11 +123,11 @@ export default {
         message: '请输入歌手ID',
         trigger: 'blur'
       }],
-  // sex: [{
-  //   required: true,
-  //   message: '请选择性别',
-  //   trigger: 'change'
-  // }]
+ singer_name: [{
+        required: true,
+        message: '请输入歌手名字',
+        trigger: 'blur'
+      }],
 },
     }
   },

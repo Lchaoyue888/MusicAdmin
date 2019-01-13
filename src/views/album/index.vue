@@ -122,11 +122,21 @@ export default {
         message: '请输入ID',
         trigger: 'blur'
       }],
-  // sex: [{
-  //   required: true,
-  //   message: '请选择性别',
-  //   trigger: 'change'
-  // }]
+        singer_id: [{
+        required: true,
+        message: '请输入ID',
+        trigger: 'blur'
+      }],
+        album_name: [{
+        required: true,
+        message: '请输入专辑名',
+        trigger: 'blur'
+      }],
+        album_date: [{
+        required: true,
+        message: '时间',
+        trigger: 'blur'
+      }],
 },
     }
   },

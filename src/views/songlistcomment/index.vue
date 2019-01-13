@@ -147,11 +147,26 @@ export default {
         message: '请输入ID',
         trigger: 'blur'
       }],
-  // sex: [{
-  //   required: true,
-  //   message: '请选择性别',
-  //   trigger: 'change'
-  // }]
+        user_id: [{
+        required: true,
+        message: '请输入ID',
+        trigger: 'blur'
+      }],
+        songlist_id: [{
+        required: true,
+        message: '请输入ID',
+        trigger: 'blur'
+      }],
+        comment_content: [{
+        required: true,
+        message: '内容',
+        trigger: 'blur'
+      }],
+        comment_time: [{
+        required: true,
+        message: '时间',
+        trigger: 'blur'
+      }],
 },
     }
   },

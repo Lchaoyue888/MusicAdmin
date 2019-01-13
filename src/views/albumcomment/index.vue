@@ -72,10 +72,11 @@
       <el-form-item label="评论id" prop="comment_id">
         <el-input v-model="form.comment_id" />
       </el-form-item>
+<!-- prop必须一样，才能在rules中高亮 -->
             <el-form-item label="用户id" prop="user_id">
         <el-input v-model="form.user_id" />
       </el-form-item>
-                  <el-form-item label="专辑id" prop="songlist_id">
+                  <el-form-item label="专辑id" prop="album_id">
         <el-input v-model="form.album_id" />
       </el-form-item>
       <el-form-item label="评论内容" prop="comment_content">
@@ -148,11 +149,26 @@ export default {
         message: '请输入ID',
         trigger: 'blur'
       }],
-  // sex: [{
-  //   required: true,
-  //   message: '请选择性别',
-  //   trigger: 'change'
-  // }]
+        user_id: [{
+        required: true,
+        message: '请输入ID',
+        trigger: 'blur'
+      }],
+        album_id: [{
+        required: true,
+        message: '请输入ID',
+        trigger: 'blur'
+      }],
+        comment_content: [{
+        required: true,
+        message: '内容',
+        trigger: 'blur'
+      }],
+        comment_time: [{
+        required: true,
+        message: '时间',
+        trigger: 'blur'
+      }],
 },
     }
   },

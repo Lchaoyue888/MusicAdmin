@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-input placeholder="歌单" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleAdd">添加</el-button>
+      <el-button lebel="添加" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleAdd">添加</el-button>
       <!-- <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button> -->
     </div>
     <el-table
@@ -19,7 +19,7 @@
         </template>
       </el-table-column> -->
 
-      <el-table-column label="歌单id" width="180" align="center">
+      <el-table-column label="歌单id" width="100" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.songlist_id }}</span>
         </template>
@@ -29,19 +29,29 @@
           {{ scope.row.songlist_name }}
         </template>
       </el-table-column>
-      <el-table-column label="用户id" width="180" align="center">
+            <el-table-column label="歌单标签">
+        <template slot-scope="scope">
+          {{ scope.row.songlist_label }}
+        </template>
+      </el-table-column>
+      <el-table-column label="歌单简介">
+        <template slot-scope="scope">
+          {{ scope.row.description }}
+        </template>
+      </el-table-column>
+      <el-table-column label="用户id" width="100" align="center">
         <template slot-scope="scope">
           {{ scope.row.user_id }}
         </template>
       </el-table-column>
-            <el-table-column label="创建时间" width="180" align="center">
+            <!-- <el-table-column label="创建时间" width="160" align="center">
         <template slot-scope="scope">
           {{ scope.row.songlist_time }}
         </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+      </el-table-column> -->
+      <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleEdit(scope.$index,scope.row)">编辑</el-button>
+          <el-button label ='编辑' type="primary" size="mini" @click="handleEdit(scope.$index,scope.row)">编辑</el-button>
           <el-button v-if="scope.row.status!='deleted'" size="mini" type="danger" @click="handleDelete(scope.$index,scope.row)">删除
           </el-button>
         </template>
@@ -52,7 +62,7 @@
 					</el-pagination>
 				</div>
     <div>
-  <el-dialog :title="form && form.id ? '编辑' : '添加' " :visible.sync="formVisible" :close-on-click-modal="false">
+  <el-dialog :title="form && form.id ? '添加' : '编辑'" :visible.sync="formVisible" :close-on-click-modal="false">
     <el-form :model="form" label-width="100px" :rules="rules" ref="form">
       <el-form-item label="歌单id" prop="songlist_id">
         <el-input v-model="form.songlist_id" />
@@ -60,12 +70,18 @@
             <el-form-item label="歌单名" prop="songlist_name">
         <el-input v-model="form.songlist_name" />
       </el-form-item>
+      <el-form-item label="歌单标签" prop="songlist_label">
+        <el-input v-model="form.songlist_label" />
+      </el-form-item>
+      <el-form-item label="简介" prop="description">
+        <el-input v-model="form.description" />
+      </el-form-item>
                   <el-form-item label="用户id" prop="user_id">
         <el-input v-model="form.user_id" />
       </el-form-item>
-      <el-form-item label="创建时间" prop="songlist_time">
+      <!-- <el-form-item label="创建时间" prop="songlist_time">
         <el-input v-model="form.songlist_time" />
-      </el-form-item>
+      </el-form-item> -->
                   <!-- <el-form-item label="手机号" prop="phone">
         <el-input v-model="form.phone" />
       </el-form-item> -->
@@ -128,11 +144,16 @@ export default {
         message: '请输入ID',
         trigger: 'blur'
       }],
-  // sex: [{
-  //   required: true,
-  //   message: '请选择性别',
-  //   trigger: 'change'
-  // }]
+      user_id: [{
+        required: true,
+        message: '请输入ID',
+        trigger: 'blur'
+      }],
+      songlist_name: [{
+        required: true,
+        message: '请输入歌单名',
+        trigger: 'blur'
+      }],
 },
     }
   },

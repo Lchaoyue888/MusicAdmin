@@ -9,13 +9,13 @@ export const listSong = params => {
   return axios.get('/api/songinfo/findall_page?currentPage='+params.currentPage+'&pageSize='+params.pageSize)
 }
 export const addSong = form => {
-  return axios.post('/api/songinfo/addSonginfo?song_id='+form.song_id+'&song_name='+form.song_name+'&singer_id='+form.singer_id)
+  return axios.post('/api/songinfo/addSonginfo?song_id='+form.song_id+'&song_name='+form.song_name+'&singer_id='+form.singer_id+'&album_id='+form.album_id)
 }
 export const deleteSong = id => {
   return axios.delete('/api/songinfo/deleteSonginfo?song_id=' + id)
 }
 export const updateSong = form => {
-  return axios.put('/api/songinfo/updateSonginfo?song_id='+form.song_id+'&song_name='+form.song_name+'&singer_id='+form.singer_id)
+  return axios.put('/api/songinfo/updateSonginfo?song_id='+form.song_id+'&song_name='+form.song_name+'&singer_id='+form.singer_id+'&album_id='+form.album_id)
 }
 
 //admininfo
@@ -51,13 +51,13 @@ export const listSinger = params => {
   return axios.get('/api/artistinfo/findsingerall_page?currentPage='+params.currentPage+'&pageSize='+params.pageSize)
 }
 export const addSinger = form => {
-  return axios.post('/api/artistinfo/addArtistinfo?singer_id='+form.singer_id+'&singer_name='+form.singer_name)
+  return axios.post('/api/artistinfo/addArtistinfo?singer_id='+form.singer_id+'&singer_name='+form.singer_name+'&singer_label='+form.singer_label)
 }
 export const deleteSinger = id => {
   return axios.delete('/api/artistinfo/deleteArtistinfo?singer_id='+id)
 }
 export const updateSinger = form =>{
-  return axios.put('/api/artistinfo/updateArtistinfo?singer_id='+form.singer_id+'&singer_name='+form.singer_name)
+  return axios.put('/api/artistinfo/updateArtistinfo?singer_id='+form.singer_id+'&singer_name='+form.singer_name+'&singer_label='+form.singer_label)
 }
 
 //songlist
@@ -65,13 +65,13 @@ export const listSonglist = params => {
   return axios.get('/api/songlist/findall_page?currentPage='+params.currentPage+'&pageSize='+params.pageSize)
 }
 export const addSonglist = form => {
-  return axios.post('/api/songlist/addSonglist?songlist_id='+form.songlist_id+'&songlist_name='+form.songlist_name+'&user_id='+form.user_id+'&songlist_time='+form.songlist_time)
+  return axios.post('/api/songlist/addSonglist?songlist_id='+form.songlist_id+'&songlist_name='+form.songlist_name+'&user_id='+form.user_id+'&songlist_label='+form.songlist_label+'&description='+form.description)
 }
 export const deleteSonglist = id => {
   return axios.delete('/api/songlist/deleteSonglist?songlist_id=' + id)
 }
 export const updateSonglist = form =>{
-  return axios.put('/api/songlist/updateSonglist?songlist_id='+form.songlist_id+'&songlist_name='+form.songlist_name+'&user_id='+form.user_id+'&songlist_time='+form.songlist_time)
+  return axios.put('/api/songlist/updateSonglist?songlist_id='+form.songlist_id+'&songlist_name='+form.songlist_name+'&user_id='+form.user_id+'&songlist_label='+form.songlist_label+'&description='+form.description)
 }
 
 //albuminfo

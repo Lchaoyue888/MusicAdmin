@@ -38,7 +38,7 @@
           {{ scope.row.notification_content }}
         </template>
       </el-table-column>
-            <el-table-column label="通知发布时间" width="180" align="center">
+            <el-table-column label="发布时间" width="180" align="center">
         <template slot-scope="scope">
           {{ scope.row.notification_time }}
         </template>
@@ -71,7 +71,7 @@
       <el-form-item label="通知id" prop="notification_id">
         <el-input v-model="form.notification_id" />
       </el-form-item>
-            <el-form-item label="管理员id" prop="user_id">
+            <el-form-item label="管理员id" prop="admin_id">
         <el-input v-model="form.admin_id" />
       </el-form-item>
                   <el-form-item label="通知标题" prop="notification_head">
@@ -80,7 +80,7 @@
       <el-form-item label="通知内容" prop="notification_content">
         <el-input v-model="form.notification_content" />
       </el-form-item>
-      <el-form-item label="通知发布时间" prop="notification_time">
+      <el-form-item label="发布时间" prop="notification_time">
         <el-input v-model="form.notification_time" />
       </el-form-item>
                   <!-- <el-form-item label="手机号" prop="phone">
@@ -144,11 +144,26 @@ export default {
         message: '请输入ID',
         trigger: 'blur'
       }],
-  // sex: [{
-  //   required: true,
-  //   message: '请选择性别',
-  //   trigger: 'change'
-  // }]
+        admin_id: [{
+        required: true,
+        message: '请输入ID',
+        trigger: 'blur'
+      }],
+        notification_head: [{
+        required: true,
+        message: '请输入通知标题',
+        trigger: 'blur'
+      }],
+        notification_content: [{
+        required: true,
+        message: '请输入通知内容',
+        trigger: 'blur'
+      }],
+        notification_time: [{
+        required: true,
+        message: '时间',
+        trigger: 'blur'
+      }],
 },
     }
   },
