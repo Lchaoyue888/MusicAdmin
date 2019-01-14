@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input placeholder="歌单" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
+      <el-input placeholder="歌单" v-model="searchName" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button lebel="添加" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleAdd">添加</el-button>
       <!-- <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button> -->
@@ -109,6 +109,7 @@ import { listSonglist } from '@/axios/api'
 import { addSonglist } from '@/axios/api'
 import { deleteSonglist } from '@/axios/api'
 import { updateSonglist } from '@/axios/api'
+import { searchSonglist } from '@/axios/api'
 
 export default {
   filters: {
@@ -123,6 +124,8 @@ export default {
   },
   data() {
     return {
+      searchName : '',
+      searchform: {},
       flag : 0,
       list: null,
       listLoading: true ,
@@ -211,7 +214,26 @@ export default {
       
     },
     handleFilter() {
-
+      this.searchform={
+        currentPage: this.currentPage,
+        pageSize: this.pageSize,
+        songlist_label : this.searchName
+      }
+      searchSonglist(this.searchform).then(res => {
+        console.log('res')
+        //未完成分页，查出来后点下一页不行
+        console.log(res.data)
+        if (!res.data) {
+          this.$message({
+            type: 'error',
+            message: '歌手不存在!'
+          })
+          return 
+        } 
+        this.currentPage = 1
+        this.list = res.data
+        // this.currentPage = 1
+      })
     },
     downloadLoading() {
       

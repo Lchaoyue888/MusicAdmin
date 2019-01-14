@@ -59,6 +59,9 @@ export const deleteSinger = id => {
 export const updateSinger = form =>{
   return axios.put('/api/artistinfo/updateArtistinfo?singer_id='+form.singer_id+'&singer_name='+form.singer_name+'&singer_label='+form.singer_label)
 }
+export const searchSinger = form => {
+  return axios.get('/api/artistinfo/singer_label_page?singer_label='+form.singer_label+'&currentPage='+form.currentPage+'&pageSize='+form.pageSize)
+}
 
 //songlist
 export const listSonglist = params => {
@@ -72,6 +75,9 @@ export const deleteSonglist = id => {
 }
 export const updateSonglist = form =>{
   return axios.put('/api/songlist/updateSonglist?songlist_id='+form.songlist_id+'&songlist_name='+form.songlist_name+'&user_id='+form.user_id+'&songlist_label='+form.songlist_label+'&description='+form.description)
+}
+export const searchSonglist = form => {
+  return axios.get('/api/songlist/findbysonglist_label_page?songlist_label='+form.songlist_label+'&currentPage='+form.currentPage+'&pageSize='+form.pageSize)
 }
 
 //albuminfo

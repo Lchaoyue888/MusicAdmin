@@ -19,7 +19,7 @@
         </template>
       </el-table-column> -->
 
-      <el-table-column label="用户id" width="180" align="center">
+      <el-table-column label="用户id" width="140" align="center">
         <template slot-scope="scope">
           {{ scope.row.user_id }}
         </template>
@@ -34,12 +34,12 @@
           <span>{{ scope.row.user_real_name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="手机号" width="180" align="center">
+      <el-table-column label="手机号" width="160" align="center">
         <template slot-scope="scope">
           {{ scope.row.user_phone_number }}
         </template>
       </el-table-column>
-      <el-table-column label="邮箱" width="200" align="center">
+      <el-table-column label="邮箱" width="180" align="center">
         <template slot-scope="scope">
           {{ scope.row.user_email }}
         </template>
@@ -202,8 +202,8 @@ export default {
           return 
         } 
         this.list = [res.data]
-        this.currentPage = 1
-        
+        // this.currentPage = 1
+        // this.fetchData()
       })
     },
     downloadLoading() {

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input placeholder="歌手" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
+      <el-input placeholder="歌手标签" v-model="searchName" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleAdd">添加</el-button>
       <!-- <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button> -->
@@ -88,7 +88,7 @@ import { listSinger } from '@/axios/api'
 import { addSinger } from '@/axios/api'
 import { deleteSinger } from '@/axios/api'
 import { updateSinger } from '@/axios/api'
-
+import { searchSinger } from '@/axios/api'
 export default {
   filters: {
     statusFilter(status) {
@@ -102,6 +102,8 @@ export default {
   },
   data() {
     return {
+      searchName : '',
+      searchform: {},
       flag : 0,
       list: null,
       listLoading: true ,
@@ -113,7 +115,7 @@ export default {
       formVisible: false,
       total : 0,
       currentPage : 1,
-      pageSize : 20,
+      pageSize : 30,
       listQuery: {},
       rows : {},
       clientHeight : '100%',
@@ -152,7 +154,8 @@ export default {
     },
     addData() {
       this.formLoading = true
-      addSinger(this.form).then(response => {
+
+      addSinger(this.searchform).then(response => {
         console.log('retret')
         console.log(response)
         this.formLoading = false
@@ -185,7 +188,26 @@ export default {
       
     },
     handleFilter() {
-
+      this.searchform={
+        currentPage: this.currentPage,
+        pageSize: this.pageSize,
+        singer_label : this.searchName
+      }
+      searchSinger(this.searchform).then(res => {
+        console.log('res')
+        //未完成分页，查出来后点下一页不行
+        console.log(res.data)
+        if (!res.data) {
+          this.$message({
+            type: 'error',
+            message: '歌手不存在!'
+          })
+          return 
+        } 
+        this.currentPage = 1
+        this.list = res.data
+        // this.currentPage = 1
+      })
     },
     downloadLoading() {
       
@@ -214,7 +236,7 @@ export default {
             message : row.singer_name+'   删除成功！'
           })
             this.currentPage = 1
-          this.fetchData()
+        
         })
         
       })
